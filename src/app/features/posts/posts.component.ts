@@ -9,16 +9,26 @@ import { PostService } from 'src/app/services/post.service';
 })
 export class PostsComponent implements OnInit {
 
-  posts : Array<Post> =  [];
-
+  public posts : Array<Post> =  [];
+  public errorMessage : string = '';
   constructor(private postService : PostService) { }
 
   ngOnInit() {
     this.loadPosts();
   }
   loadPosts(){
-    this.postService.loadPosts().subscribe(data =>{
-      this.posts = data;
-    });
+    this.postService
+          .loadPosts()
+          .subscribe( data  => {  this.posts = data; },
+                      error => {  this.errorMessage = error;});
   }
+  createPost(post: Post){
+    this.postService.addPost(post).subscribe(data => {
+          this.posts.push(data)
+        },
+        error => {  
+          this.errorMessage = error;
+        });
+  }
+
 }

@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Post } from 'src/app/models/posts/post';
 import { PostService } from 'src/app/services/post.service';
 
-
 @Component({
-  selector: 'app-post',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss']
+  selector: 'app-create-post',
+  templateUrl: './create-post.component.html',
+  styleUrls: ['./create-post.component.scss']
 })
-export class PostComponent implements OnInit {
+export class CreatePostComponent implements OnInit {
   postName : string = '';
   postDescription : string = '';
   post: Post;
   messageError = [];
+
+  @Output("onCreatePost") public createPost : EventEmitter<Post>  = new EventEmitter<Post>();
 
   constructor(private postService : PostService) {
 
@@ -35,11 +36,14 @@ export class PostComponent implements OnInit {
         });
       return;
     }
-    this.post.postName = this.postName;
-    this.post.postDescription = this.postDescription;
-    this.postService.addPost(this.post);
-    console.log(this.postName);
-    console.log(this.postDescription);
+    this.post = {
+      id:'',
+      postName:this.postName,
+      postDescription: this.postDescription,
+      postCreatedOn: new Date(),
+      postUpdatedOn: new Date(),
+    };
+    this.createPost.emit(this.post);    
   }
 
 }
