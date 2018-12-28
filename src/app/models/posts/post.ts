@@ -1,5 +1,5 @@
 export interface Post{
-    id : string;
+    id : number;
     postName : string;
     postDescription : string;
     postCreatedOn : Date;

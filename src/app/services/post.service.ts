@@ -29,6 +29,9 @@ export class PostService {
     return this.http.get<Post[]>(this.postUrl)
                     .pipe(retry(3), catchError(this.errorHandler));
   }
+  loadPost(){
+    
+  }
 
   errorHandler(error : HttpErrorResponse){
     return throwError(error.message || "Server error");

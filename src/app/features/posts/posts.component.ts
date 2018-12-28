@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Post } from 'src/app/models/posts/post';
 import { PostService } from 'src/app/services/post.service';
+
 
 @Component({
   selector: 'app-posts',
@@ -11,7 +14,9 @@ export class PostsComponent implements OnInit {
 
   public posts : Array<Post> =  [];
   public errorMessage : string = '';
-  constructor(private postService : PostService) { }
+  constructor(
+    private postService : PostService,
+    private router : Router) { }
 
   ngOnInit() {
     this.loadPosts();
@@ -19,16 +24,14 @@ export class PostsComponent implements OnInit {
   loadPosts(){
     this.postService
           .loadPosts()
-          .subscribe( data  => {  this.posts = data; },
-                      error => {  this.errorMessage = error;});
+          .subscribe( 
+            data  => {  
+              this.posts = data;
+            },
+            error => {  
+              this.errorMessage = error;
+            });
   }
-  createPost(post: Post){
-    this.postService.addPost(post).subscribe(data => {
-          this.posts.push(data)
-        },
-        error => {  
-          this.errorMessage = error;
-        });
-  }
+ 
 
 }

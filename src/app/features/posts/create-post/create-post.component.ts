@@ -12,8 +12,8 @@ export class CreatePostComponent implements OnInit {
   postDescription : string = '';
   post: Post;
   messageError = [];
-
-  @Output("onCreatePost") public createPost : EventEmitter<Post>  = new EventEmitter<Post>();
+  public errorMessage : string = '';
+  @Output("onCreatePost") public createPostEvent : EventEmitter<Post>  = new EventEmitter<Post>();
 
   constructor(private postService : PostService) {
 
@@ -37,13 +37,22 @@ export class CreatePostComponent implements OnInit {
       return;
     }
     this.post = {
-      id:'',
+      id:0,
       postName:this.postName,
       postDescription: this.postDescription,
       postCreatedOn: new Date(),
       postUpdatedOn: new Date(),
     };
-    this.createPost.emit(this.post);    
+    this.createPostEvent.emit(this.post);
+    this.createPost(this.post);    
+  }
+  createPost(post: Post){
+    this.postService.addPost(post).subscribe(data => {
+          this.post = data;
+        },
+        error => {  
+          this.errorMessage = error;
+        });
   }
 
 }

@@ -1,21 +1,3 @@
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <div class="card">
-            <div class="card-body">
-                    <app-create-post
-                      (onCreatePost)="createPost($event)"
-                   ></app-create-post>
-            </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-            <div class="card-body">
-                <app-servers></app-servers>
-            </div>
-            </div>
-        </div>
-    </div>
     <div class="row">        
         <div class="col-md-12">
             <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -26,7 +8,7 @@
                         Posts
                     </div>
                     <div class="list-group list-group-flush">
-                        <a [routerLink]="['/posts/', post.id]" routerLinkActive="active" *ngFor="let post of posts"  class="list-group-item list-group-item-action"> 
+                        <a routerLink="/posts/{{post.id}}" routerLinkActive="active" *ngFor="let post of posts"  class="list-group-item list-group-item-action"> 
                             {{post.postName}}
                         </a>               
                     </div>
